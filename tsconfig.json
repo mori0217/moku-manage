@@ -12,12 +12,13 @@
     "typeRoots": [
       "node_modules/@types"
     ],
+    "types": [
+      "node",
+      "firebase"
+    ],
     "lib": [
       "es2016",
       "dom"
-    ],
-    "types": [
-      "firebase"
     ]
   }
 }
