@@ -5,17 +5,21 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 
-import { AngularFire } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private af: AngularFire, private router: Router) {
+  constructor(private afAuth: AngularFireAuth, private router: Router) {
   }
 
   canActivate(): Observable<boolean> {
-    return this.af.auth.map(auth => {
-      if (auth == null) {
+    /**
+     *  TODO AuthServiceを利用してboolean型を返すようできなかった<br/>
+     *  canActivateの方がsubscribeよりも先に呼ばれてしまうためである。
+     */
+    return this.afAuth.map(authState => {
+      if (authState == null) {
         console.log('auth guard');
         this.router.navigate(['/login']);
         return false;

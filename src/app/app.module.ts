@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AuthService } from './auth.service';
 
 /**
  * firebase用のconfig
@@ -37,7 +38,7 @@ const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AppRoutingModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 

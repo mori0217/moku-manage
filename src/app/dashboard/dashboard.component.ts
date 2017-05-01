@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AngularFire } from 'angularfire2';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,19 +11,19 @@ import { AngularFire } from 'angularfire2';
 
 export class DashboardComponent implements OnInit {
 
-  constructor(public af: AngularFire, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   ngOnInit() {
   }
 
+  /**
+   * ログアウト処理を行う
+   */
   logout() {
-    this.af.auth.logout().then(auth => {
+    this.authService.logout().then(authState => {
       console.log('logout');
-      console.log(auth);
-      this.router.navigateByUrl('/login');
-    }).catch(error => {
-      console.error(error);
+      this.router.navigate(['/login']);
     });
   }
 
