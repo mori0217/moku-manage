@@ -15,4 +15,14 @@ export class MokuComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * ログアウト処理を行う
+   */
+  logout() {
+    this.authService.logout().then(authState => {
+      console.log('logout');
+      this.router.navigate(['/login']);
+    });
+  }
+
 }
