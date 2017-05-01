@@ -7,10 +7,13 @@ import { Router } from '@angular/router';
 import { AngularFireModule } from 'angularfire2';
 
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+
+import { MokuModule } from './moku/moku.module';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './auth.service';
+
 
 /**
  * firebase用のconfig
@@ -29,14 +32,15 @@ const firebaseConfig = {
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AppRoutingModule
+    MokuModule,
+    AppRoutingModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
@@ -47,7 +51,7 @@ const firebaseConfig = {
  */
 export class AppModule {
 
-  constructor(router: Router) {
+  constructor(private router: Router) {
     console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
   }
 
