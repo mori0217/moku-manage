@@ -9,7 +9,7 @@ export class AuthService {
   constructor(public afAuth: AngularFireAuth) {
     afAuth.subscribe((authState: FirebaseAuthState) => {
       this.authState = authState;
-      console.log('authState change ' + this.authenticated);
+      console.log('authState change ' + this.isAuth());
       console.log(authState);
     });
   }
@@ -17,7 +17,7 @@ export class AuthService {
   /**
    * 認証済みであればtrue
    */
-  get authenticated(): boolean {
+  isAuth(): boolean {
     return this.authState !== null;
   }
 
@@ -47,11 +47,19 @@ export class AuthService {
     return Promise.reject(error.message || error);
   }
 
+  // TODO 2017/05/02 userオブジェクトを作成しそれを返すようにする
   /**
    * 名前を表示する
    */
-  displayName(): string {
-    return this.authenticated ? this.authState.github.displayName : '';
+  getDisplayName(): string {
+    return this.isAuth() ? this.authState.github.displayName : '';
+  }
+
+  /**
+   * uidを表示する
+   */
+  getUid(): string {
+    return this.isAuth() ? this.authState.uid : '';
   }
 
 }
