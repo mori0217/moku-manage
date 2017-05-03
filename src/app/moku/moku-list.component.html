@@ -9,11 +9,30 @@
     <div class="card-block">
       <h4 class="card-title">{{moku.title}}</h4>
       <h6 class="card-subtitle mb-2 text-muted">
-        {{moku.uid}}({{moku.mokuDate}}) <span class="badge badge-info">{{moku.isMypc ? 'PC持込' : ''}}</span>
+        {{moku.userDisplayName}}({{moku.mokuDate}}) <span class="badge badge-info">{{moku.isMypc ? 'PC持込' : ''}}</span>
       </h6>
       <p class="card-text">{{moku.detail}}</p>
-      <button class="btn btn-primary col-4 col-md-2" (click)="goEdit(moku)">編集</button>
-      <button class="btn btn-danger col-4 col-md-2" (click)="deleteMoku(moku)">削除</button>
+      <button class="btn btn-primary col-4 col-md-2" (click)="goEdit(moku)" *ngIf="isMyMoku(moku)">編集</button>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-danger col-4 col-md-2" data-toggle="modal" [attr.data-target]="'#deleteModal_' + moku.uid"
+        *ngIf="isMyMoku(moku)">削除</button>
+      <!-- Modal -->
+      <div class="modal fade" [id]="'deleteModal_' + moku.uid" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteModalLabel">もくもくを削除しますか？</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteMoku(moku)">削除</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

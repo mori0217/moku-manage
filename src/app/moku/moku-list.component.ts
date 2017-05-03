@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { FirebaseListObservable } from 'angularfire2';
 import { Moku } from './moku';
+import { AuthService } from '../auth.service';
 import { MokuService } from './moku.service';
 
 @Component({
@@ -15,12 +16,20 @@ export class MokuListComponent implements OnInit {
   // タスク一覧
   mokus: FirebaseListObservable<Moku[]>;
 
-  constructor(private mokuSerivce: MokuService, private router: Router) {
+  constructor(private authService: AuthService, private mokuSerivce: MokuService, private router: Router) {
     // FIXME 2017/05/03 日付での絞込
     this.mokus = mokuSerivce.getMokus();
   }
 
   ngOnInit() {
+  }
+
+
+  /**
+   * 自分の作成したタスクであればtrue
+   */
+  isMyMoku(moku: Moku): boolean {
+    return moku.uid === this.authService.getAuthUser().uid;
   }
 
   /**
@@ -31,7 +40,6 @@ export class MokuListComponent implements OnInit {
     this.router.navigate(['moku/edit', moku.$key]);
   }
 
-  // FIXME 2017/05/03 タスクを削除する前には確認を入れる
   /**
    * タスクを削除する
    * @param moku タスク
