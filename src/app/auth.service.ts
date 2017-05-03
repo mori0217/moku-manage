@@ -12,6 +12,7 @@ export class AuthService {
     afAuth.subscribe((authState: FirebaseAuthState) => {
       this.authState = authState;
       if (!this.isAuth()) {
+        // 認証が切れた場合はログインページに遷移
         this.router.navigate(['/login']);
       }
       // console.log('authState change ' + this.isAuth());
