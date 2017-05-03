@@ -11,6 +11,11 @@ import { AuthGuard } from './auth-guard.service';
  */
 const appRoutes: Routes = [
     {
+        path: '',
+        redirectTo: '/moku',
+        pathMatch: 'full'
+    },
+    {
         path: 'login',
         component: LoginComponent,
     },
