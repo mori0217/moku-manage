@@ -3,22 +3,19 @@
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#">もくもく管理アプリ</a>
+  <a class="navbar-brand">もくもく管理</a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link" >トップ</a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/moku" routerLinkActive="active" class="nav-link" >検索</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="logout()" >ログアウト</a>
+        <a routerLink="/moku" routerLinkActive="active" class="nav-link">トップ</a>
       </li>
     </ul>
     <span class="navbar-text">
-      ようこそ{{ authService.displayName() }}
+      ようこそ{{ authService.getDisplayName() }}
     </span>
+    <button class="btn btn-outline-success my-2 my-sm-0 mx-2" (click)="logout()">ログアウト</button>
   </div>
 </nav>
+
+<router-outlet></router-outlet>
