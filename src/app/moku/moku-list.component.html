@@ -1,6 +1,6 @@
 <section class="mt-4">
-  <h3>もくもくを登録</h3>
-  <a routerLink="/moku/edit" routerLinkActive="active" class="btn btn-primary col-4 col-md-2">新規</a>
+  <h3>今日何する？</h3>
+  <a routerLink="/moku/edit" routerLinkActive="active" class="btn btn-primary col-4 col-md-2">登録</a>
 </section>
 
 <section class="mt-4">
@@ -8,7 +8,9 @@
   <div class="card" *ngFor="let moku of (mokus | async) as mokus">
     <div class="card-block">
       <h4 class="card-title">{{moku.title}}</h4>
-      <h6 class="card-subtitle mb-2 text-muted">{{moku.uid}}({{moku.mokuDate}}) {{moku.isMypc ? 'PC持込' : ''}}</h6>
+      <h6 class="card-subtitle mb-2 text-muted">
+        {{moku.uid}}({{moku.mokuDate}}) <span class="badge badge-info">{{moku.isMypc ? 'PC持込' : ''}}</span>
+      </h6>
       <p class="card-text">{{moku.detail}}</p>
       <button class="btn btn-primary col-4 col-md-2" (click)="goEdit(moku)">編集</button>
       <button class="btn btn-danger col-4 col-md-2" (click)="deleteMoku(moku)">削除</button>
