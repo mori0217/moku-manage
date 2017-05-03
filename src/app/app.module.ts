@@ -9,6 +9,7 @@ import { MokuModule } from './moku/moku.module';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UserService } from './user/user.service';
 import { AuthService } from './auth.service';
 
 /**
@@ -36,7 +37,10 @@ const firebaseConfig = {
     LoginComponent,
     DashboardComponent,
   ],
-  providers: [AuthService],
+  providers: [
+    UserService,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 

@@ -48,7 +48,9 @@ export class MokuEditComponent implements OnInit {
    */
   dateToString(date: Date): string {
     return [
-      date.getFullYear(), ('0' + (date.getMonth() + 1)).slice(-2), ('0' + date.getDate()).slice(-2)
+      date.getFullYear(),
+      ('0' + (date.getMonth() + 1)).slice(-2),
+      ('0' + date.getDate()).slice(-2)
     ].join('-');
   }
 
@@ -63,8 +65,10 @@ export class MokuEditComponent implements OnInit {
    * 新規登録の場合は「登録」。更新の場合は「更新」
    */
   getCreateUpdateLabel(moku: Moku): string {
-    return moku.$key ? '更新' : '新規';
+    return moku.$key ? '更新' : '登録';
   }
+
+  // TODO 2017/05/03　タスク登録時に登録日時・更新日時・登録者名を入れるようにする
 
   /**
    * タスクを登録/更新する
@@ -75,7 +79,7 @@ export class MokuEditComponent implements OnInit {
       this.mokuSerivce.update(moku)
         .then(() => this.goBack());
     } else {
-      moku.uid = this.authService.getUid();
+      moku.uid = this.authService.getAuthUser().uid;
       this.mokuSerivce.create(moku)
         .then(() => this.goBack());
     }
