@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     this.authService.loginWithGitHub()
       .then(authState => {
         console.log('login');
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/moku']);
       });
   }
 

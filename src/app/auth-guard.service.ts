@@ -5,20 +5,19 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 
-import { AngularFireAuth } from 'angularfire2';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private afAuth: AngularFireAuth, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   canActivate(): Observable<boolean> {
-    /**
-     *  TODO AuthServiceを利用してboolean型を返すようできなかった<br/>
-     *  canActivateの方がsubscribeよりも先に呼ばれてしまうためである。
-     */
-    return this.afAuth.map(authState => {
+
+    // TODO 2017/05/02 AuthServiceを利用してboolean型を返すようできなかったのでObservable<boolean>としている
+    // canActivate(): booleanの方がsubscribeよりも先に呼ばれてしまうためauthStateが正しく取得できない
+    return this.authService.afAuth.map(authState => {
       if (authState == null) {
         console.log('auth guard');
         this.router.navigate(['/login']);

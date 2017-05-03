@@ -1,0 +1,51 @@
+<section class="mt-4" *ngIf="moku | async as moku">
+  <h3>もくもくを{{getCreateUpdateLabel(moku)}}</h3>
+  <form (ngSubmit)="createUpdateMoku(moku)" #mokuForm="ngForm">
+    <!-- 日付 -->
+    <div class="form-group row">
+      <label for="mokuDate" class="col-4 col-form-label">日付</label>
+      <div class="col-8">
+        <input type="date" class="form-control" id="mokuDate" [(ngModel)]="moku.mokuDate" name="mokuDate" #mokuDate="ngModel" required>
+      </div>
+      <div [hidden]="mokuDate.valid || mokuDate.pristine" class="alert alert-danger col-12">
+        日付は必須です
+      </div>
+    </div>
+    <!-- タイトル -->
+    <div class="form-group row">
+      <label for="title" class="col-4 col-form-label">タイトル</label>
+      <div class="col-8">
+        <input type="text" class="form-control" id="title" [(ngModel)]="moku.title" name="title" #title="ngModel" required [maxlength]="titleMaxlength">
+      </div>
+      <div [hidden]="title.valid || title.pristine" class="alert alert-danger col-12">
+        タイトルは必須です
+      </div>
+      <div [hidden]="!title.errors?.maxlength" class="alert alert-danger col-12">
+        タイトルは最大{{titleMaxlength}}文字です
+      </div>
+    </div>
+    <!-- 詳細 -->
+    <div class="form-group row">
+      <label for="detail" class="col-4 col-form-label">詳細</label>
+      <div class="col-8">
+        <textarea type="text" class="form-control" id="detail" rows="5" [(ngModel)]="moku.detail" name="detail" #detail="ngModel"
+          [maxlength]="detailMaxlength"></textarea>
+      </div>
+      <div [hidden]="!detail.errors?.maxlength" class="alert alert-danger col-12">
+        詳細は最大{{detailMaxlength}}文字です
+      </div>
+    </div>
+    <!-- PC持ち込み -->
+    <div class="form-check row">
+      <label class="form-check-label offset-4 col-8">
+        <input type="checkbox" class="form-check-input" [(ngModel)]="moku.isMypc" name="isMypc">
+        PC持ち込み
+      </label>
+    </div>
+    <!-- 登録 -->
+    <div class="form-group row">
+      <button type="button" class="btn btn-primary offset-8 col-2" (click)="goBack()">戻る</button>
+      <button type="submit" class="btn btn-primary col-2" [disabled]="!mokuForm.form.valid">{{getCreateUpdateLabel(moku)}}</button>
+    </div>
+  </form>
+</section>

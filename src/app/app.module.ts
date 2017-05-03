@@ -1,15 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { AngularFireModule } from 'angularfire2';
 
 import { AppComponent } from './app.component';
+import { MokuModule } from './moku/moku.module';
+import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './auth.service';
 
 /**
@@ -26,17 +25,16 @@ const firebaseConfig = {
 };
 
 @NgModule({
+  imports: [
+    BrowserModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    MokuModule,
+    AppRoutingModule,
+  ],
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    AppRoutingModule
+    DashboardComponent,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
@@ -47,8 +45,8 @@ const firebaseConfig = {
  */
 export class AppModule {
 
-  constructor(router: Router) {
-    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+  constructor(private router: Router) {
+    // console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
   }
 
 }

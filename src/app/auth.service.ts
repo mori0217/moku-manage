@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { AuthProviders, AngularFireAuth, FirebaseAuthState, AuthMethods } from 'angularfire2';
 
 @Injectable()
@@ -6,18 +8,22 @@ export class AuthService {
   // 認証情報
   private authState: FirebaseAuthState = null;
 
-  constructor(public afAuth: AngularFireAuth) {
+  constructor(public afAuth: AngularFireAuth, private router: Router) {
     afAuth.subscribe((authState: FirebaseAuthState) => {
       this.authState = authState;
-      console.log('authState change ' + this.authenticated);
-      console.log(authState);
+      if (!this.isAuth()) {
+        // 認証が切れた場合はログインページに遷移
+        this.router.navigate(['/login']);
+      }
+      // console.log('authState change ' + this.isAuth());
+      // console.log(authState);
     });
   }
 
   /**
    * 認証済みであればtrue
    */
-  get authenticated(): boolean {
+  isAuth(): boolean {
     return this.authState !== null;
   }
 
@@ -47,11 +53,19 @@ export class AuthService {
     return Promise.reject(error.message || error);
   }
 
+  // TODO 2017/05/02 userオブジェクトを作成しそれを返すようにする
   /**
    * 名前を表示する
    */
-  displayName(): string {
-    return this.authenticated ? this.authState.github.displayName : '';
+  getDisplayName(): string {
+    return this.isAuth() ? this.authState.github.displayName : '';
+  }
+
+  /**
+   * uidを表示する
+   */
+  getUid(): string {
+    return this.isAuth() ? this.authState.uid : '';
   }
 
 }
