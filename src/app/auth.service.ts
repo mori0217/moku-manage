@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { AuthProviders, AngularFireAuth, FirebaseAuthState, AuthMethods } from 'angularfire2';
 
 @Injectable()
@@ -6,11 +8,14 @@ export class AuthService {
   // 認証情報
   private authState: FirebaseAuthState = null;
 
-  constructor(public afAuth: AngularFireAuth) {
+  constructor(public afAuth: AngularFireAuth, private router: Router) {
     afAuth.subscribe((authState: FirebaseAuthState) => {
       this.authState = authState;
-      console.log('authState change ' + this.isAuth());
-      console.log(authState);
+      if (!this.isAuth()) {
+        this.router.navigate(['/login']);
+      }
+      // console.log('authState change ' + this.isAuth());
+      // console.log(authState);
     });
   }
 
