@@ -68,18 +68,23 @@ export class MokuEditComponent implements OnInit {
     return moku.$key ? '更新' : '登録';
   }
 
-  // TODO 2017/05/03　タスク登録時に登録日時・更新日時・登録者名を入れるようにする
-
   /**
    * タスクを登録/更新する
    * @param moku 登録/更新データ
    */
   createUpdateMoku(moku: Moku) {
+    const now: number = new Date().getTime();
+    moku.updated = now;
     if (moku.$key) {
+      // 更新
       this.mokuSerivce.update(moku)
         .then(() => this.goBack());
     } else {
-      moku.uid = this.authService.getAuthUser().uid;
+      // 登録
+      const authUser = this.authService.getAuthUser();
+      moku.uid = authUser.uid;
+      moku.userDisplayName = authUser.displayName;
+      moku.created = now;
       this.mokuSerivce.create(moku)
         .then(() => this.goBack());
     }
