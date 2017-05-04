@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
 
-    // TODO 2017/05/02 AuthServiceを利用してboolean型を返すようできなかったのでObservable<boolean>としている
+    // AuthServiceを利用してboolean型を返すようできなかったので、Observable<boolean>としている
     // canActivate(): booleanの方がsubscribeよりも先に呼ばれてしまうためauthStateが正しく取得できない
     return this.authService.afAuth.map(authState => {
       if (authState == null) {

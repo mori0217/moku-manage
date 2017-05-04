@@ -1,6 +1,6 @@
 export class User {
     /**
-    * キー(uid) uidと同じ
+    * キー(uidと同じ)
     */
     // $key: string;
 

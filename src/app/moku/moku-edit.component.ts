@@ -21,7 +21,7 @@ export class MokuEditComponent implements OnInit {
   // detailの最大文字数
   private detailMaxlength = 200;
 
-  // *ngifとasyncを組み合わせることができる
+  // *ngifとasyncを組み合わせて表示している
   moku: Observable<Moku>;
 
   constructor(private authService: AuthService, private mokuSerivce: MokuService,
@@ -30,8 +30,10 @@ export class MokuEditComponent implements OnInit {
       .switchMap((params: Params) => {
         const id = params['id'];
         if (id) {
+          // 更新
           return this.mokuSerivce.getMoku(id);
         } else {
+          // 新規
           const moku = new Moku();
           // 日付の初期値に今日をセットする
           moku.mokuDate = DateUtils.dateToString(new Date());

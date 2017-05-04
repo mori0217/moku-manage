@@ -24,7 +24,8 @@
       <button type="button" class="btn btn-danger col-4 col-md-2" data-toggle="modal" [attr.data-target]="'#deleteModal_' + moku.$key"
         *ngIf="isMyMoku(moku)">削除</button>
       <!-- Modal -->
-      <div class="modal fade" [id]="'deleteModal_' + moku.$key" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal fade" [id]="'deleteModal_' + moku.$key" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">

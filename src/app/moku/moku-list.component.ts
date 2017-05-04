@@ -18,6 +18,7 @@ import { DateUtils } from '../util/date.utils';
 export class MokuListComponent implements OnInit {
   // タスクの日付
   mokuDate: string;
+  // 検索用のタスクの日付
   mokuDateSubject: Subject<string>;
 
   // タスク一覧

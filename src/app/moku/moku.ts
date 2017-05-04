@@ -32,7 +32,7 @@ export class Moku {
      */
     created: number;
     /**
-     * 更新(timestamp)
+     * 更新時間(timestamp)
      */
     updated: number;
 }

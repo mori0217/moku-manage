@@ -69,7 +69,7 @@ export class AuthService {
       return new User();
     }
     const githubUser: firebase.UserInfo = this.authState.github;
-    // TODO 2017/05/04 ユーザクラスへの値のコピーを簡潔に記載できないか調査
+    // TODO 2017/05/04 userクラスへの値のコピーを簡潔に記載できないか調査
     const user = new User();
     user.uid = this.authState.uid;
     user.displayName = githubUser.displayName;
