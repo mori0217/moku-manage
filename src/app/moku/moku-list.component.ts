@@ -18,16 +18,14 @@ import { DateUtils } from '../util/date.utils';
 export class MokuListComponent implements OnInit {
   // タスクの日付
   mokuDate: string;
-  // 検索用のタスクの日付
-  mokuDateSubject: Subject<string>;
 
   // タスク一覧
   mokus: FirebaseListObservable<Moku[]>;
 
   constructor(private authService: AuthService, private mokuSerivce: MokuService, private router: Router) {
     this.mokuDate = DateUtils.dateToString(new Date());
-    this.mokuDateSubject = new BehaviorSubject(this.mokuDate);
-    this.mokus = mokuSerivce.getMokusByMokuDate(this.mokuDateSubject);
+    // subjectを利用した方法だと別ブラウザで更新を行った際に、別ブラウザで更新した日付にfilterされるため避けた
+    this.mokus = mokuSerivce.getMokusByMokuDate(this.mokuDate);
   }
 
   ngOnInit() {
@@ -37,7 +35,7 @@ export class MokuListComponent implements OnInit {
    * 日付をもとに検索
    */
   filterByMokuDate(mokuDate: string) {
-    this.mokuDateSubject.next(mokuDate);
+    this.mokus = this.mokuSerivce.getMokusByMokuDate(mokuDate);
   }
 
   /**

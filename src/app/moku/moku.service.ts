@@ -22,13 +22,14 @@ export class MokuService {
   }
 
   /**
- * タスクの日付からタスク一覧を取得
- */
-  getMokusByMokuDate(mokuDateSubject: Subject<string>): FirebaseListObservable<Moku[]> {
+   * タスクの日付からタスク一覧を取得
+   * Subjectを利用した方法だと別ブラウザで更新した際にfilter条件が勝手に変わるため避けた
+   */
+  getMokusByMokuDate(mokuDate: string): FirebaseListObservable<Moku[]> {
     return this.afDatabase.list('/mokus', {
       query: {
         orderByChild: 'mokuDate',
-        equalTo: mokuDateSubject
+        equalTo: mokuDate
       }
     });
   }
