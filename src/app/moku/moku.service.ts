@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { Subject } from 'rxjs/Subject';
 
 import { Moku } from './moku';
 
@@ -18,6 +19,18 @@ export class MokuService {
    */
   getMokus(): FirebaseListObservable<Moku[]> {
     return this.mokus;
+  }
+
+  /**
+ * タスクの日付からタスク一覧を取得
+ */
+  getMokusByMokuDate(mokuDateSubject: Subject<string>): FirebaseListObservable<Moku[]> {
+    return this.afDatabase.list('/mokus', {
+      query: {
+        orderByChild: 'mokuDate',
+        equalTo: mokuDateSubject
+      }
+    });
   }
 
   /**

@@ -7,6 +7,7 @@ import 'rxjs/add/operator/switchMap';
 import { Moku } from './moku';
 import { AuthService } from '../auth.service';
 import { MokuService } from './moku.service';
+import { DateUtils } from '../util/date.utils';
 
 @Component({
   selector: 'app-moku-edit',
@@ -33,25 +34,13 @@ export class MokuEditComponent implements OnInit {
         } else {
           const moku = new Moku();
           // 日付の初期値に今日をセットする
-          moku.mokuDate = this.dateToString(new Date());
+          moku.mokuDate = DateUtils.dateToString(new Date());
           return Observable.of(moku);
         }
       });
   }
 
   ngOnInit() {
-  }
-
-  // TODO 2017/05/03 utilに分割する
-  /**
-   * date型をyyyy-MM-dd形式のstring型に変換する
-   */
-  dateToString(date: Date): string {
-    return [
-      date.getFullYear(),
-      ('0' + (date.getMonth() + 1)).slice(-2),
-      ('0' + date.getDate()).slice(-2)
-    ].join('-');
   }
 
   /**

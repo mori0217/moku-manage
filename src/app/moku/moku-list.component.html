@@ -1,10 +1,17 @@
 <section class="mt-4">
   <h3>今日何する？</h3>
-  <a routerLink="/moku/edit" routerLinkActive="active" class="btn btn-primary col-4 col-md-2">登録</a>
+  <a routerLink="/moku/edit" routerLinkActive="active" class="btn btn-primary col-6 col-sm-4 col-lg-2">もくもくを登録</a>
 </section>
 
 <section class="mt-4">
   <h3>みんなのもくもく</h3>
+  <div class="form-group row">
+    <div class="col-8 col-sm-6 col-md-4">
+      <input type="date" class="form-control" id="mokuDate" [ngModel]="mokuDate" (ngModelChange)="mokuDate=$event;filterByMokuDate(mokuDate)"
+        name="mokuDate" required>
+    </div>
+  </div>
+  <!-- 結果 -->
   <div class="card" *ngFor="let moku of (mokus | async) as mokus">
     <div class="card-block">
       <h4 class="card-title">{{moku.title}}</h4>
@@ -14,10 +21,10 @@
       <p class="card-text">{{moku.detail}}</p>
       <button class="btn btn-primary col-4 col-md-2" (click)="goEdit(moku)" *ngIf="isMyMoku(moku)">編集</button>
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-danger col-4 col-md-2" data-toggle="modal" [attr.data-target]="'#deleteModal_' + moku.uid"
+      <button type="button" class="btn btn-danger col-4 col-md-2" data-toggle="modal" [attr.data-target]="'#deleteModal_' + moku.$key"
         *ngIf="isMyMoku(moku)">削除</button>
       <!-- Modal -->
-      <div class="modal fade" [id]="'deleteModal_' + moku.uid" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal fade" [id]="'deleteModal_' + moku.$key" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">

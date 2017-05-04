@@ -15,7 +15,7 @@
     <div class="form-group row">
       <label for="title" class="col-4 col-form-label">タイトル</label>
       <div class="col-8">
-        <input type="text" class="form-control" id="title" [(ngModel)]="moku.title" name="title" #title="ngModel" required [maxlength]="titleMaxlength">
+        <input type="text" class="form-control" id="title" [(ngModel)]="moku.title" name="title" #title="ngModel" required [maxlength]="titleMaxlength" autofocus>
       </div>
       <div [hidden]="title.valid || title.pristine" class="alert alert-danger col-12">
         タイトルは必須です
