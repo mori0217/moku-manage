@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2';
 import { MokuService } from './moku.service';
 
 describe('MokuService', () => {
@@ -13,7 +13,7 @@ describe('MokuService', () => {
       providers: [
         MokuService,
         { provide: AngularFireDatabase, useValue: angularFireDatabaseStub }
-        ]
+      ]
     });
   });
 
