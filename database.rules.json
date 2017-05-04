@@ -1,6 +1,13 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "users": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "mokus": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      ".indexOn": "mokuDate"
+    }
   }
 }
