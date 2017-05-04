@@ -2,10 +2,10 @@ import { browser, element, by } from 'protractor';
 
 export class MokuManagePage {
   navigateTo() {
-    return browser.get('/');
+    return browser.get('/login');
   }
 
   getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+    return element(by.tagName('h3')).getText();
   }
 }

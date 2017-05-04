@@ -1,11 +1,19 @@
 import { TestBed, inject } from '@angular/core/testing';
 
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { MokuService } from './moku.service';
 
 describe('MokuService', () => {
   beforeEach(() => {
+    const angularFireDatabaseStub = {
+      list: FirebaseListObservable,
+    };
+
     TestBed.configureTestingModule({
-      providers: [MokuService]
+      providers: [
+        MokuService,
+        { provide: AngularFireDatabase, useValue: angularFireDatabaseStub }
+        ]
     });
   });
 
