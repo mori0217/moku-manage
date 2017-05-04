@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-import { AuthProviders, AngularFireAuth, FirebaseAuthState, AuthMethods } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2';
 import { Subscription } from 'rxjs/';
 import { AuthService } from './auth.service';
 import { UserService } from './user/user.service';
