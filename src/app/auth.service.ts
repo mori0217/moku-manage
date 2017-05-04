@@ -3,20 +3,28 @@ import { Router } from '@angular/router';
 
 import { AuthProviders, AngularFireAuth, FirebaseAuthState, AuthMethods } from 'angularfire2';
 
+import { User } from './user/user';
+import { UserService } from './user/user.service';
+
 @Injectable()
 export class AuthService {
   // 認証情報
   private authState: FirebaseAuthState = null;
 
-  constructor(public afAuth: AngularFireAuth, private router: Router) {
+  constructor(public afAuth: AngularFireAuth, private userService: UserService, private router: Router) {
     afAuth.subscribe((authState: FirebaseAuthState) => {
       this.authState = authState;
-      if (!this.isAuth()) {
+      if (this.isAuth()) {
+        const authUser = this.getAuthUser();
+        // ユーザ情報を更新
+        authUser.lastLoginTime = new Date().getTime();
+        this.userService.getUser(authUser.uid).update(authUser);
+        console.log(authUser);
+      } else {
         // 認証が切れた場合はログインページに遷移
         this.router.navigate(['/login']);
       }
       // console.log('authState change ' + this.isAuth());
-      // console.log(authState);
     });
   }
 
@@ -53,19 +61,22 @@ export class AuthService {
     return Promise.reject(error.message || error);
   }
 
-  // TODO 2017/05/02 userオブジェクトを作成しそれを返すようにする
   /**
-   * 名前を表示する
+   * 認証ユーザ情報を取得
    */
-  getDisplayName(): string {
-    return this.isAuth() ? this.authState.github.displayName : '';
-  }
-
-  /**
-   * uidを表示する
-   */
-  getUid(): string {
-    return this.isAuth() ? this.authState.uid : '';
+  getAuthUser(): User {
+    if (!this.isAuth()) {
+      return new User();
+    }
+    const githubUser: firebase.UserInfo = this.authState.github;
+    // TODO 2017/05/04 userクラスへの値のコピーを簡潔に記載できないか調査
+    const user = new User();
+    user.uid = this.authState.uid;
+    user.displayName = githubUser.displayName;
+    user.email = githubUser.email;
+    user.photoUrl = githubUser.photoURL;
+    user.providerId = githubUser.providerId;
+    return user;
   }
 
 }

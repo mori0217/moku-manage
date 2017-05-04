@@ -7,6 +7,7 @@ import 'rxjs/add/operator/switchMap';
 import { Moku } from './moku';
 import { AuthService } from '../auth.service';
 import { MokuService } from './moku.service';
+import { DateUtils } from '../util/date.utils';
 
 @Component({
   selector: 'app-moku-edit',
@@ -20,7 +21,7 @@ export class MokuEditComponent implements OnInit {
   // detailの最大文字数
   private detailMaxlength = 200;
 
-  // *ngifとasyncを組み合わせることができる
+  // *ngifとasyncを組み合わせて表示している
   moku: Observable<Moku>;
 
   constructor(private authService: AuthService, private mokuSerivce: MokuService,
@@ -29,27 +30,19 @@ export class MokuEditComponent implements OnInit {
       .switchMap((params: Params) => {
         const id = params['id'];
         if (id) {
+          // 更新
           return this.mokuSerivce.getMoku(id);
         } else {
+          // 新規
           const moku = new Moku();
           // 日付の初期値に今日をセットする
-          moku.mokuDate = this.dateToString(new Date());
+          moku.mokuDate = DateUtils.dateToString(new Date());
           return Observable.of(moku);
         }
       });
   }
 
   ngOnInit() {
-  }
-
-  // TODO 2017/05/03 utilに分割する
-  /**
-   * date型をyyyy-MM-dd形式のstring型に変換する
-   */
-  dateToString(date: Date): string {
-    return [
-      date.getFullYear(), ('0' + (date.getMonth() + 1)).slice(-2), ('0' + date.getDate()).slice(-2)
-    ].join('-');
   }
 
   /**
@@ -63,7 +56,7 @@ export class MokuEditComponent implements OnInit {
    * 新規登録の場合は「登録」。更新の場合は「更新」
    */
   getCreateUpdateLabel(moku: Moku): string {
-    return moku.$key ? '更新' : '新規';
+    return moku.$key ? '更新' : '登録';
   }
 
   /**
@@ -71,11 +64,18 @@ export class MokuEditComponent implements OnInit {
    * @param moku 登録/更新データ
    */
   createUpdateMoku(moku: Moku) {
+    const now: number = new Date().getTime();
+    moku.updated = now;
     if (moku.$key) {
+      // 更新
       this.mokuSerivce.update(moku)
         .then(() => this.goBack());
     } else {
-      moku.uid = this.authService.getUid();
+      // 登録
+      const authUser = this.authService.getAuthUser();
+      moku.uid = authUser.uid;
+      moku.userDisplayName = authUser.displayName;
+      moku.created = now;
       this.mokuSerivce.create(moku)
         .then(() => this.goBack());
     }

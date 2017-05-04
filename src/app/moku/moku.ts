@@ -8,6 +8,10 @@ export class Moku {
      */
     uid: string;
     /**
+     * ユーザ名
+     */
+    userDisplayName: string;
+    /**
      * もくもく日
      */
     mokuDate: string;
@@ -23,4 +27,12 @@ export class Moku {
      * PC持ち込み
      */
     isMypc: boolean;
+    /**
+     * 登録時間(timestamp)
+     */
+    created: number;
+    /**
+     * 更新時間(timestamp)
+     */
+    updated: number;
 }

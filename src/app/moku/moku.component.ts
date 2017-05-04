@@ -13,7 +13,7 @@ import { AuthService } from '../auth.service';
 
 export class MokuComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(public authService: AuthService, private router: Router) {
   }
 
   ngOnInit() {

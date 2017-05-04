@@ -2,8 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { FirebaseListObservable } from 'angularfire2';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 import { Moku } from './moku';
+import { AuthService } from '../auth.service';
 import { MokuService } from './moku.service';
+import { DateUtils } from '../util/date.utils';
 
 @Component({
   selector: 'app-moku-list',
@@ -11,16 +16,35 @@ import { MokuService } from './moku.service';
   styleUrls: ['./moku-list.component.css']
 })
 export class MokuListComponent implements OnInit {
+  // タスクの日付
+  mokuDate: string;
+  // 検索用のタスクの日付
+  mokuDateSubject: Subject<string>;
 
   // タスク一覧
   mokus: FirebaseListObservable<Moku[]>;
 
-  constructor(private mokuSerivce: MokuService, private router: Router) {
-    // FIXME 2017/05/03 日付での絞込
-    this.mokus = mokuSerivce.getMokus();
+  constructor(private authService: AuthService, private mokuSerivce: MokuService, private router: Router) {
+    this.mokuDate = DateUtils.dateToString(new Date());
+    this.mokuDateSubject = new BehaviorSubject(this.mokuDate);
+    this.mokus = mokuSerivce.getMokusByMokuDate(this.mokuDateSubject);
   }
 
   ngOnInit() {
+  }
+
+  /**
+   * 日付をもとに検索
+   */
+  filterByMokuDate(mokuDate: string) {
+    this.mokuDateSubject.next(mokuDate);
+  }
+
+  /**
+   * 自分の作成したタスクであればtrue
+   */
+  isMyMoku(moku: Moku): boolean {
+    return moku.uid === this.authService.getAuthUser().uid;
   }
 
   /**
@@ -31,7 +55,6 @@ export class MokuListComponent implements OnInit {
     this.router.navigate(['moku/edit', moku.$key]);
   }
 
-  // FIXME 2017/05/03 タスクを削除する前には確認を入れる
   /**
    * タスクを削除する
    * @param moku タスク
