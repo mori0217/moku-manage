@@ -1,3 +1,7 @@
 {
-    "vsicons.presets.angular": true
+  "vsicons.presets.angular": true,
+  // インデントガイドを表示
+  "editor.renderIndentGuides": true,
+  // 100,120行目に線を表示
+  "editor.rulers": [100, 120]
 }
